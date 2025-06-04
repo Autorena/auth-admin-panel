@@ -119,7 +119,7 @@ undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/confi
 .PHONY: build_images_remote_auth_admin
 build_images_remote_auth_admin: ## Build auth-admin-panel image and push to registry.
 	@echo "Building auth-admin-panel image..." && \
-	docker build --tag $(REGISTRY)/autorena-auth-admin-panel:$(IMG_TAG) \
+	docker build --tag $(REGISTRY)/autorena-auth-admin-panel:$(IMAGE_TAG) \
 		--file Dockerfile . || true && \
 	echo "Pushing auth-admin-panel image to registry..." && \
-	docker push $(REGISTRY)/autorena-auth-admin-panel:$(IMG_TAG)
+	docker push $(REGISTRY)/autorena-auth-admin-panel:$(IMAGE_TAG)
