@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: auth-admin
-          image: localhost:5000/autorena-auth-admin-panel:latest
+          image: localhost:5000/autorena-auth-admin-panel:0.0.2
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
