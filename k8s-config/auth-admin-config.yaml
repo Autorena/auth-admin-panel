@@ -4,6 +4,9 @@ metadata:
   name: auth-admin-config
   namespace: autorena
 data:
+  driverName: "postgres"
+  dataSourceName: "auth-admin-user:auth-admin-pass@10.43.175.96:5432/"
+  dbName: "auth-admin-db"
   APPNAME: "auth-admin-panel"
   HTTPPORT: "8000"
   RUNMODE: "dev"
