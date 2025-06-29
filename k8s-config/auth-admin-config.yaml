@@ -5,7 +5,8 @@ metadata:
   namespace: autorena
 data:
   driverName: "postgres"
-  dataSourceName: "auth-admin-user:auth-admin-pass@10.43.175.96:5432/"
+#  dataSourceName: "auth-admin-user:auth-admin-pass@10.43.175.96:5432/"
+  dataSourceName: "host=auth-admin-postgres.autorena.svc.cluster.local port=5432 user=auth-admin-user password=auth-admin-pass dbname=auth-admin-db sslmode=disable"
   dbName: "auth-admin-db"
   APPNAME: "auth-admin-panel"
   HTTPPORT: "8000"
