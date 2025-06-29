@@ -46,7 +46,9 @@ var (
 
 func InitFlag() {
 	createDatabase = getCreateDatabaseFlag()
+	fmt.Printf("create database: %t\n", createDatabase)
 	configPath = getConfigFlag()
+	fmt.Printf("config path: %s\n", configPath)
 }
 
 func getCreateDatabaseFlag() bool {
@@ -75,6 +77,7 @@ func InitConfig() {
 
 func InitAdapter() {
 	if conf.GetConfigString("driverName") == "" {
+		fmt.Println("driverName is not set, using default: mysql")
 		if !util.FileExist(configPath) {
 			dir, err := os.Getwd()
 			if err != nil {
@@ -93,12 +96,17 @@ func InitAdapter() {
 	}
 
 	var err error
-	ormer, err = NewAdapter(conf.GetConfigString("driverName"), conf.GetConfigDataSourceName(), conf.GetConfigString("dbName"))
+	driverName := conf.GetConfigString("driverName")
+	dataSourceName := conf.GetConfigDataSourceName()
+	dbName := conf.GetConfigString("dbName")
+	fmt.Printf("driverName: %s, dataSourceName: %s, dbName: %s\n", driverName, dataSourceName, dbName)
+	ormer, err = NewAdapter(driverName, dataSourceName, dbName)
 	if err != nil {
 		panic(err)
 	}
 
 	tableNamePrefix := conf.GetConfigString("tableNamePrefix")
+	fmt.Printf("tableNamePrefix: %s\n", tableNamePrefix)
 	tbMapper := names.NewPrefixMapper(names.SnakeMapper{}, tableNamePrefix)
 	ormer.Engine.SetTableMapper(tbMapper)
 }
