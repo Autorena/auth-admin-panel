@@ -76,6 +76,7 @@ func GetConfigDataSourceName() string {
 
 func ReplaceDataSourceNameByDocker(dataSourceName string) string {
 	runningInDocker := os.Getenv("RUNNING_IN_DOCKER")
+	fmt.Println("Running in Docker:", runningInDocker)
 	if runningInDocker == "true" {
 		// https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
 		if runtime.GOOS == "linux" {

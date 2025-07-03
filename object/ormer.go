@@ -46,7 +46,9 @@ var (
 
 func InitFlag() {
 	createDatabase = getCreateDatabaseFlag()
+	fmt.Printf("create database: %t\n", createDatabase)
 	configPath = getConfigFlag()
+	fmt.Printf("config path: %s\n", configPath)
 }
 
 func getCreateDatabaseFlag() bool {
@@ -75,6 +77,7 @@ func InitConfig() {
 
 func InitAdapter() {
 	if conf.GetConfigString("driverName") == "" {
+		fmt.Println("driverName is not set, using default: mysql")
 		if !util.FileExist(configPath) {
 			dir, err := os.Getwd()
 			if err != nil {
@@ -93,12 +96,20 @@ func InitAdapter() {
 	}
 
 	var err error
-	ormer, err = NewAdapter(conf.GetConfigString("driverName"), conf.GetConfigDataSourceName(), conf.GetConfigString("dbName"))
+
+	driverName := conf.GetConfigString("driverName")
+	dataSourceName := conf.GetConfigDataSourceName()
+	dbName := conf.GetConfigString("dbName")
+
+	fmt.Printf("driverName: %s, dbName: %s\n", driverName, dbName)
+
+	ormer, err = NewAdapter(driverName, dataSourceName, dbName)
 	if err != nil {
 		panic(err)
 	}
 
 	tableNamePrefix := conf.GetConfigString("tableNamePrefix")
+	fmt.Printf("tableNamePrefix: %s\n", tableNamePrefix)
 	tbMapper := names.NewPrefixMapper(names.SnakeMapper{}, tableNamePrefix)
 	ormer.Engine.SetTableMapper(tbMapper)
 }
@@ -179,12 +190,13 @@ func NewAdapterFromDb(driverName string, dataSourceName string, dbName string, d
 
 func refineDataSourceNameForPostgres(dataSourceName string) string {
 	reg := regexp.MustCompile(`dbname=[^ ]+\s*`)
-	return reg.ReplaceAllString(dataSourceName, "dbname=postgres")
+	return reg.ReplaceAllString(dataSourceName, "dbname=postgres ")
 }
 
 func createDatabaseForPostgres(driverName string, dataSourceName string, dbName string) error {
 	if driverName == "postgres" {
-		db, err := sql.Open(driverName, refineDataSourceNameForPostgres(dataSourceName))
+		refineDataSourceName := refineDataSourceNameForPostgres(dataSourceName)
+		db, err := sql.Open(driverName, refineDataSourceName)
 		if err != nil {
 			return err
 		}

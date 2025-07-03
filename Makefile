@@ -1,8 +1,9 @@
-
 # Image URL to use all building/pushing image targets
-REGISTRY ?= casbin
+#REGISTRY ?= casbin
 IMG ?= casdoor
-IMG_TAG ?=$(shell git --no-pager log -1 --format="%ad" --date=format:"%Y%m%d")-$(shell git describe --tags --always --dirty --abbrev=6)
+#IMG_TAG ?=$(shell git --no-pager log -1 --format="%ad" --date=format:"%Y%m%d")-$(shell git describe --tags --always --dirty --abbrev=6)
+IMAGE_TAG = 0.0.2
+REGISTRY = localhost:5000
 NAMESPACE ?= casdoor
 APP ?= casdoor
 HOST ?= test.com
@@ -114,3 +115,11 @@ dry-run: ## Dry run for helm install
 .PHONY: undeploy
 undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config. Call with ignore-not-found=true to ignore resource not found errors during deletion.
 	helm delete ${APP} -n ${NAMESPACE}
+
+.PHONY: build_images_remote_auth_admin
+build_images_remote_auth_admin: ## Build auth-admin-panel image and push to registry.
+	@echo "Building auth-admin-panel image..." && \
+	docker build --tag $(REGISTRY)/autorena-auth-admin-panel:$(IMAGE_TAG) \
+		--file Dockerfile . || true && \
+	echo "Pushing auth-admin-panel image to registry..." && \
+	docker push $(REGISTRY)/autorena-auth-admin-panel:$(IMAGE_TAG)

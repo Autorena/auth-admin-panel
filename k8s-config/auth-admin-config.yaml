@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-admin-config
+  namespace: autorena
+data:
+  driverName: "postgres"
+#  dataSourceName: "auth-admin-user:auth-admin-pass@10.43.175.96:5432/"
+  dataSourceName: "host=auth-admin-postgres.autorena.svc.cluster.local port=5432 user=auth-admin-user password=auth-admin-pass dbname=auth-admin-db sslmode=disable"
+  dbName: "auth-admin-db"
+  APPNAME: "auth-admin-panel"
+  HTTPPORT: "8000"
+  RUNMODE: "dev"
+  DRIVERNAME: "postgres"
+  DATASOURCENAME: "host=auth-admin-postgres.autorena.svc.cluster.local port=5432 user=$(DB_USER) password=$(DB_PASSWORD) dbname=$(DB_NAME) sslmode=disable"
+  DBNAME: "auth-admin-db"
+  SHOWSQL: "false"
+  REDISENDPOINT: ""
+  STATICBASEURL: "https://cdn.casbin.org"
+  ISDEMOMODE: "false"
+  BATCHSIZE: "100"
+  ENABLEERRORMASK: "false"
+  ENABLEGZIP: "true"
+  LOGCONFIG: '{"adapter":"file", "filename": "logs/auth-admin.log", "maxdays":99999, "perm":"0770"}'
+  INITDATAFILE: "./init_data.json"
+  FRONTENDBASEDIR: "../cc_0" 
