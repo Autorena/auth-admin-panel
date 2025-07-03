@@ -484,9 +484,6 @@ func GetAuthorizationCodeToken(application *Application, clientSecret string, co
 		}
 	}
 
-	fmt.Printf("application.ClientSecret %q and clientSecret %q",
-		application.ClientSecret, clientSecret)
-
 	if application.ClientSecret != clientSecret {
 		// when using PKCE, the Client Secret can be empty,
 		// but if it is provided, it must be accurate.

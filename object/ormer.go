@@ -96,10 +96,13 @@ func InitAdapter() {
 	}
 
 	var err error
+
 	driverName := conf.GetConfigString("driverName")
 	dataSourceName := conf.GetConfigDataSourceName()
 	dbName := conf.GetConfigString("dbName")
-	fmt.Printf("driverName: %s, dataSourceName: %s, dbName: %s\n", driverName, dataSourceName, dbName)
+
+	fmt.Printf("driverName: %s, dbName: %s\n", driverName, dbName)
+
 	ormer, err = NewAdapter(driverName, dataSourceName, dbName)
 	if err != nil {
 		panic(err)
@@ -193,7 +196,6 @@ func refineDataSourceNameForPostgres(dataSourceName string) string {
 func createDatabaseForPostgres(driverName string, dataSourceName string, dbName string) error {
 	if driverName == "postgres" {
 		refineDataSourceName := refineDataSourceNameForPostgres(dataSourceName)
-		fmt.Printf("refineDataSourceName: %s\n", refineDataSourceName)
 		db, err := sql.Open(driverName, refineDataSourceName)
 		if err != nil {
 			return err
