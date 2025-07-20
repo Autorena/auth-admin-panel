@@ -15,9 +15,11 @@ spec:
       labels:
         app: auth-admin
     spec:
+      imagePullSecrets:
+        - name: gitlab-registry-auth
       containers:
         - name: auth-admin
-          image: localhost:5000/autorena-auth-admin-panel:0.0.2
+          image: registry.autorena.ru/autorena/auth-admin-panel/autorena-auth-admin-panel:0.0.2
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

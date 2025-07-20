@@ -3,7 +3,7 @@
 IMG ?= casdoor
 #IMG_TAG ?=$(shell git --no-pager log -1 --format="%ad" --date=format:"%Y%m%d")-$(shell git describe --tags --always --dirty --abbrev=6)
 IMAGE_TAG = 0.0.2
-REGISTRY = localhost:5000
+REGISTRY = registry.autorena.ru/autorena/auth-admin-panel
 NAMESPACE ?= casdoor
 APP ?= casdoor
 HOST ?= test.com
@@ -120,6 +120,8 @@ undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/confi
 build_images_remote_auth_admin: ## Build auth-admin-panel image and push to registry.
 	@echo "Building auth-admin-panel image..." && \
 	docker build --tag $(REGISTRY)/autorena-auth-admin-panel:$(IMAGE_TAG) \
+		--platform linux/amd64 \
 		--file Dockerfile . || true && \
+	echo "Auth-admin-panel image built successfully with tag $(IMAGE_TAG)" && \
 	echo "Pushing auth-admin-panel image to registry..." && \
 	docker push $(REGISTRY)/autorena-auth-admin-panel:$(IMAGE_TAG)
